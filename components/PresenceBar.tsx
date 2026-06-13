@@ -2,10 +2,10 @@
 
 import { useConnection, useDocument, usePresences } from '@yorkie-js/react';
 import { StreamConnectionStatus } from '@yorkie-js/sdk';
-import type { User } from '@/lib/user';
+import type { CursorPresence } from '@/lib/yorkie-cursors';
 
 export default function PresenceBar() {
-  const presences = usePresences<User>();
+  const presences = usePresences<CursorPresence>();
   const connection = useConnection();
   const { loading } = useDocument();
 

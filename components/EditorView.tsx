@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { YorkieProvider, DocumentProvider, type Text } from '@yorkie-js/react';
+import { YorkieProvider, DocumentProvider } from '@yorkie-js/react';
 import { loadUser, type User } from '@/lib/user';
+import type { DocRoot } from '@/lib/yorkie-codemirror';
+import type { CursorPresence } from '@/lib/yorkie-cursors';
 import PresenceBar from './PresenceBar';
-
-type DocRoot = { content?: Text };
+import MarkdownEditor from './MarkdownEditor';
+import MarkdownPreview from './MarkdownPreview';
+import EnsureUniqueColor from './EnsureUniqueColor';
 
 type Props = { docKey: string };
 
@@ -29,11 +32,12 @@ export default function EditorView({ docKey }: Props) {
 
   return (
     <YorkieProvider rpcAddr={process.env.NEXT_PUBLIC_YORKIE_RPC_ADDR!}>
-      <DocumentProvider<DocRoot, User>
+      <DocumentProvider<DocRoot, CursorPresence>
         docKey={docKey}
         initialRoot={{}}
         initialPresence={user}
       >
+        <EnsureUniqueColor />
         <div className="app-shell">
           <aside className="app-sidebar" aria-label="문서 목록">
             <div className="sidebar-title">문서</div>
@@ -43,7 +47,8 @@ export default function EditorView({ docKey }: Props) {
           <div className="app-main">
             <PresenceBar />
             <section className="editor-body">
-              <p className="editor-placeholder">에디터는 Phase 3에서 구현됩니다.</p>
+              <MarkdownEditor />
+              <MarkdownPreview />
             </section>
           </div>
         </div>

@@ -13,6 +13,12 @@ export function pickColor(): string {
   return PRESENCE_COLORS[Math.floor(Math.random() * PRESENCE_COLORS.length)];
 }
 
+/** First color not in `used`; falls back to a random color when all are taken. */
+export function pickUnusedColor(used: Iterable<string>): string {
+  const set = new Set(used);
+  return PRESENCE_COLORS.find((c) => !set.has(c)) ?? pickColor();
+}
+
 export function saveUser(user: User): void {
   sessionStorage.setItem('user', JSON.stringify(user));
 }
