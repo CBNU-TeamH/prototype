@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { saveUser, pickColor } from '@/lib/user';
+import { saveUser, loadUser, pickColor } from '@/lib/user';
 
 export default function EntryPage() {
   const [name, setName] = useState('');
@@ -10,6 +10,13 @@ export default function EntryPage() {
 
   const trimmed = name.trim();
   const canJoin = trimmed.length > 0;
+
+  // Already entered (nickname in sessionStorage) → skip re-entry (guard ②).
+  useEffect(() => {
+    if (loadUser()) {
+      router.replace('/doc/demo');
+    }
+  }, [router]);
 
   function handleJoin() {
     if (!canJoin) return;

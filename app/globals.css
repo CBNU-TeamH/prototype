@@ -100,3 +100,130 @@ a {
   opacity: 0.45;
   cursor: not-allowed;
 }
+
+/* App Shell (Phase 2 — skeleton; editor body filled in Phase 3) */
+.app-shell {
+  display: flex;
+  height: 100vh;
+  background: var(--paper);
+}
+
+.app-sidebar {
+  flex: 0 0 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 16px;
+  background: var(--paper-2);
+  border-right: 1.5px solid var(--ink-faint);
+}
+
+.sidebar-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.sidebar-item {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+.sidebar-item.is-active {
+  background: var(--sky-soft);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.sidebar-hint {
+  margin-top: auto;
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+}
+
+.app-main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* PresenceBar */
+.presence-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1.5px solid var(--ink-faint);
+  background: var(--paper);
+}
+
+.presence-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+}
+
+.presence-chip {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(28, 27, 26, 0.25);
+}
+
+.conn-badge {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.conn-badge::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.conn-on {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.conn-off {
+  background: var(--paper-2);
+  color: var(--ink-faint);
+}
+
+.conn-loading {
+  background: var(--sky-soft);
+  color: var(--sky-deep);
+}
+
+/* Editor body placeholder (Phase 3) */
+.editor-body {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.editor-placeholder {
+  color: var(--ink-faint);
+  font-size: 0.95rem;
+}
