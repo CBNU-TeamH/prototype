@@ -1,5 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { PRESENCE_COLORS, pickColor, saveUser, loadUser } from '@/lib/user';
+import {
+  PRESENCE_COLORS,
+  pickColor,
+  pickUnusedColor,
+  saveUser,
+  loadUser,
+} from '@/lib/user';
 
 describe('T1-1: pickColor', () => {
   it('returns a value always in PRESENCE_COLORS', () => {
@@ -7,6 +13,21 @@ describe('T1-1: pickColor', () => {
       const color = pickColor();
       expect(PRESENCE_COLORS).toContain(color);
     }
+  });
+});
+
+describe('T3-11: pickUnusedColor', () => {
+  it('returns the first color not already in use', () => {
+    const used = [PRESENCE_COLORS[0], PRESENCE_COLORS[1]];
+    expect(pickUnusedColor(used)).toBe(PRESENCE_COLORS[2]);
+  });
+
+  it('returns the first color when none are used', () => {
+    expect(pickUnusedColor([])).toBe(PRESENCE_COLORS[0]);
+  });
+
+  it('falls back to a valid palette color when all are taken', () => {
+    expect(PRESENCE_COLORS).toContain(pickUnusedColor(PRESENCE_COLORS));
   });
 });
 

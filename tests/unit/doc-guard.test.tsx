@@ -20,6 +20,9 @@ vi.mock('@yorkie-js/react', () => ({
   usePresences: () => [],
   useConnection: () => 'connected',
   useDocument: () => ({ loading: false }),
+  // MarkdownEditor early-returns when there is no client, so a stub is enough.
+  useYorkie: () => ({ client: undefined }),
+  Text: class {},
   StreamConnectionStatus: { Connected: 'connected', Disconnected: 'disconnected' },
 }));
 
