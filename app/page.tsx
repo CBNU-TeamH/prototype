@@ -14,14 +14,14 @@ export default function EntryPage() {
   // Already entered (nickname in sessionStorage) → skip re-entry (guard ②).
   useEffect(() => {
     if (loadUser()) {
-      router.replace('/doc/demo');
+      router.replace('/dashboard');
     }
   }, [router]);
 
   function handleJoin() {
     if (!canJoin) return;
     saveUser({ name: trimmed, color: pickColor() });
-    router.push('/doc/demo');
+    router.push('/dashboard');
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
