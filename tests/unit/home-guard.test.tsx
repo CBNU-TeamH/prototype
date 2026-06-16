@@ -15,7 +15,7 @@ vi.mock('@/lib/user', async (importOriginal) => {
 
 import EntryPage from '@/app/page';
 
-describe('T2-7: home guard (existing nickname → auto-redirect to /doc/demo)', () => {
+describe('T2-7: home guard (existing nickname → auto-redirect to /dashboard)', () => {
   beforeEach(() => {
     mockReplace.mockClear();
     mockLoadUser.mockReset();
@@ -27,9 +27,9 @@ describe('T2-7: home guard (existing nickname → auto-redirect to /doc/demo)', 
     expect(mockReplace).not.toHaveBeenCalled();
   });
 
-  it('redirects to /doc/demo when a user is already stored', () => {
+  it('redirects to /dashboard when a user is already stored', () => {
     mockLoadUser.mockReturnValue({ name: '재훈', color: '#0ea5e9' });
     render(<EntryPage />);
-    expect(mockReplace).toHaveBeenCalledWith('/doc/demo');
+    expect(mockReplace).toHaveBeenCalledWith('/dashboard');
   });
 });

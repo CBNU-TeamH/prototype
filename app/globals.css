@@ -101,6 +101,285 @@ a {
   cursor: not-allowed;
 }
 
+/* Dashboard (Phase 3.5 — WorkSpace Overview; clean tone, single real doc) */
+.dashboard {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+}
+
+.dash-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  padding: 0 24px;
+  border-bottom: 1.5px solid var(--ink-faint);
+  background: var(--paper);
+}
+
+.dash-nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dash-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--sky-soft);
+  color: var(--sky-deep);
+  font-weight: 800;
+  font-size: 0.875rem;
+  letter-spacing: -0.04em;
+}
+
+.dash-nav-divider {
+  width: 1.5px;
+  height: 20px;
+  background: var(--ink-faint);
+  opacity: 0.5;
+}
+
+.dash-workspace-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.dash-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dash-username {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.dash-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-shadow: 0 1px 1px rgba(28, 27, 26, 0.25);
+  flex-shrink: 0;
+}
+
+.dash-avatar-sm {
+  width: 22px;
+  height: 22px;
+  font-size: 0.7rem;
+}
+
+.dash-main {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 40px;
+}
+
+.dash-ws-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.dash-ws-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--sky-soft);
+  font-size: 1.1rem;
+}
+
+.dash-ws-name {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.dash-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1.5px solid var(--ink-faint);
+  margin-bottom: 28px;
+}
+
+.dash-tab {
+  position: relative;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.dash-tab.is-active {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.dash-tab.is-active::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -1.5px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: var(--sky-deep);
+}
+
+.dash-tab.is-disabled {
+  color: var(--ink-faint);
+  cursor: not-allowed;
+}
+
+.dash-docs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.dash-docs-title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.dash-docs-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.dash-docs-count {
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dash-newdoc {
+  padding: 6px 14px;
+  border: 1.5px solid var(--sky-deep);
+  border-radius: 8px;
+  background: var(--sky);
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.dash-newdoc:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.dash-search-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.dash-search {
+  flex: 1;
+  max-width: 360px;
+  padding: 7px 12px;
+  border: 1.5px solid var(--ink-faint);
+  border-radius: 8px;
+  background: var(--paper-2);
+  font-size: 0.8125rem;
+  color: var(--ink-faint);
+}
+
+.dash-sort {
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+
+.dash-doc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.dash-doc-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 16px;
+  border: 1.5px solid var(--ink-faint);
+  border-radius: 10px;
+  background: var(--paper);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.dash-doc-card:hover {
+  background: var(--sky-soft);
+  border-color: var(--sky-deep);
+}
+
+.dash-doc-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--paper-2);
+  font-size: 1.05rem;
+}
+
+.dash-doc-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.dash-doc-sub {
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+
+.dash-doc-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(28, 27, 26, 0.15);
+}
+
+.dash-doc-open {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--sky-deep);
+}
+
 /* App Shell (Phase 2 — skeleton; editor body filled in Phase 3) */
 .app-shell {
   display: flex;

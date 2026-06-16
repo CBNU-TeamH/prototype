@@ -69,7 +69,7 @@ describe('T1-5: join button click → saveUser + router.push', () => {
     const savedArg = mockSaveUser.mock.calls[0][0];
     expect(savedArg.name).toBe('재훈');
     expect(typeof savedArg.color).toBe('string');
-    expect(mockPush).toHaveBeenCalledWith('/doc/demo');
+    expect(mockPush).toHaveBeenCalledWith('/dashboard');
   });
 });
 
@@ -85,6 +85,6 @@ describe('T1-6: Enter key triggers join', () => {
     const input = screen.getByRole('textbox');
     await user.type(input, '재훈{Enter}');
     expect(mockSaveUser).toHaveBeenCalledOnce();
-    expect(mockPush).toHaveBeenCalledWith('/doc/demo');
+    expect(mockPush).toHaveBeenCalledWith('/dashboard');
   });
 });
