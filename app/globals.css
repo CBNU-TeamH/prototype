@@ -410,6 +410,10 @@ a {
   border-radius: 8px;
   font-size: 0.95rem;
   color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .sidebar-item.is-active {
@@ -418,10 +422,104 @@ a {
   font-weight: 600;
 }
 
+.doc-avatars {
+  display: inline-flex;
+}
+
+.doc-avatars .doc-avatar + .doc-avatar {
+  margin-left: -6px;
+}
+
+.doc-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+  border: 1.5px solid var(--paper-2);
+  text-shadow: 0 1px 1px rgba(28, 27, 26, 0.25);
+}
+
 .sidebar-hint {
   margin-top: auto;
   font-size: 0.75rem;
   color: var(--ink-faint);
+}
+
+/* Phase 3.6 — multi-doc sidebar additions */
+.sidebar-item-title {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-item {
+  cursor: pointer;
+}
+
+.sidebar-newdoc-btn {
+  padding: 6px 12px;
+  margin-top: 4px;
+  border: 1.5px dashed var(--ink-faint);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-faint);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.sidebar-newdoc-btn:hover {
+  border-color: var(--sky-deep);
+  color: var(--sky-deep);
+}
+
+.sidebar-newdoc-row {
+  padding: 4px 0;
+}
+
+.sidebar-newdoc-input {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 0.875rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1.5px solid var(--sky);
+  border-radius: 8px;
+  outline: none;
+}
+
+/* Phase 3.6 — multi-doc dashboard inline creation */
+.dash-newdoc-row {
+  display: flex;
+  align-items: center;
+}
+
+.dash-newdoc-input {
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1.5px solid var(--sky);
+  border-radius: 8px;
+  outline: none;
+  width: 200px;
+}
+
+.dash-newdoc:not(:disabled) {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.dash-newdoc:not(:disabled):hover {
+  background: var(--sky-deep);
 }
 
 .app-main {

@@ -14,12 +14,23 @@ vi.mock('@/lib/user', async (importOriginal) => {
 });
 
 // Yorkie providers/hooks are stubbed — real-server behaviour is covered by manual tests.
+// useDocument is called by SidebarDocList (index doc), MarkdownEditor/PresenceBar (content doc).
+// usePresences is called by useDocIndex (index presences) and PresenceBar (content presences).
+// Both providers and both clients pass children through as stubs.
 vi.mock('@yorkie-js/react', () => ({
   YorkieProvider: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   DocumentProvider: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   usePresences: () => [],
   useConnection: () => 'connected',
-  useDocument: () => ({ loading: false }),
+  useDocument: () => ({
+    loading: false,
+    doc: {
+      getRoot: () => ({
+        docs: [{ docKey: 'demo', title: 'demo', createdAt: 1000 }],
+      }),
+    },
+    update: () => {},
+  }),
   // MarkdownEditor early-returns when there is no client, so a stub is enough.
   useYorkie: () => ({ client: undefined }),
   Text: class {},
