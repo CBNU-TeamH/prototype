@@ -20,8 +20,14 @@ import {
 import type { TextPosStructRange } from '@yorkie-js/sdk';
 import type { User } from '@/lib/user';
 
-/** Presence payload: the entry-screen user plus an optional selection range. */
-export type CursorPresence = User & { selection?: TextPosStructRange | null };
+/**
+ * Presence payload: the entry-screen user plus an optional selection range.
+ * Published on the content document; participants in the PresenceBar and
+ * EnsureUniqueColor are simply everyone attached to that document.
+ */
+export type CursorPresence = User & {
+  selection?: TextPosStructRange | null;
+};
 
 /** A peer's cursor in CodeMirror index space (before normalisation). */
 export type RemotePeerCursor = {

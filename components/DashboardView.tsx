@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { YorkieProvider, DocumentProvider } from '@yorkie-js/react';
 import { loadUser, type User } from '@/lib/user';
+import { INDEX_DOC_KEY } from '@/lib/doc-index';
+import type { DocIndexRoot, DocIndexPresence } from '@/lib/doc-index';
+import DashboardDocList from './DashboardDocList';
 
 /**
  * Dashboard (WorkSpace Overview). Sits between the entry screen and the editor:
@@ -62,38 +66,18 @@ export default function DashboardView() {
           <span className="dash-tab is-disabled">Settings</span>
         </div>
 
-        <div className="dash-docs-header">
-          <div className="dash-docs-title-group">
-            <span className="dash-docs-title">Docs</span>
-            <span className="dash-docs-count">1 item</span>
-          </div>
-          <button className="dash-newdoc" disabled title="문서 생성은 프로토타입 범위 밖">
-            + New Doc
-          </button>
-        </div>
-
-        {/* Decorative search/sort row (no behaviour in the prototype). */}
-        <div className="dash-search-row" aria-hidden="true">
-          <div className="dash-search">🔍 Search docs…</div>
-          <div className="dash-sort">Sort: Date modified ▾</div>
-        </div>
-
-        <div className="dash-doc-grid">
-          <button className="dash-doc-card" onClick={() => router.push('/doc/demo')}>
-            <span className="dash-doc-icon">📄</span>
-            <span className="dash-doc-name">demo</span>
-            <span className="dash-doc-sub">실시간 협업 문서</span>
-            <span className="dash-doc-meta">
-              <span
-                className="dash-avatar dash-avatar-sm"
-                style={{ backgroundColor: user.color }}
-              >
-                {initial}
-              </span>
-              <span className="dash-doc-open">열기 →</span>
-            </span>
-          </button>
-        </div>
+        {/*
+          DashboardDocList is wrapped in Yorkie providers (lurker=true on the
+          index doc). Nav / tabs / header above remain unaffected.
+        */}
+        <YorkieProvider rpcAddr={process.env.NEXT_PUBLIC_YORKIE_RPC_ADDR!}>
+          <DocumentProvider<DocIndexRoot, DocIndexPresence>
+            docKey={INDEX_DOC_KEY}
+            initialPresence={{ name: user.name, color: user.color }}
+          >
+            <DashboardDocList user={user} />
+          </DocumentProvider>
+        </YorkieProvider>
       </div>
     </main>
   );
