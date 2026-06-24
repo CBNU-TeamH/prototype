@@ -14,10 +14,14 @@ import {
 } from '@/lib/yorkie-codemirror';
 import {
   type CursorPresence,
+  type NormalizedCursor,
   type RemotePeerCursor,
   createRemoteCursorsExtension,
+  createLineBlockExtension,
   normalizeCursors,
   setRemoteCursors,
+  remoteOccupiedLines,
+  firstUnoccupiedLineStart,
 } from '@/lib/yorkie-cursors';
 
 export default function MarkdownEditor() {
@@ -36,6 +40,11 @@ export default function MarkdownEditor() {
 
     const selfID = client.getID();
     const initial = doc.getRoot().content?.toString() ?? '';
+
+    // Live getter for the local user's presence color — used by localLineField
+    // to tint the local caret line border with the occupant's own color.
+    const getLocalColor = () =>
+      doc.getPresences().find((p) => p.clientID === selfID)?.presence.color;
 
     // Publish our caret/selection into presence as a stable Yorkie pos range.
     // Pre-check against the last sent range so we don't emit redundant updates.
@@ -78,15 +87,18 @@ export default function MarkdownEditor() {
           markdown(),
           syncToYorkie,
           createRemoteCursorsExtension(),
+          createLineBlockExtension(getLocalColor),
         ],
       }),
       parent: hostRef.current,
     });
 
-    // Recompute remote carets/selections from presence into current indices.
-    const refreshCursors = () => {
+    // Collect the latest set of remote cursors from presence into current indices.
+    // Pure snapshot — does not dispatch anything. Used by both refreshCursors and
+    // the initial caret placement logic below.
+    const collectRemoteCursors = (): NormalizedCursor[] => {
       const content = doc.getRoot().content;
-      if (!content) return;
+      if (!content) return [];
       const peers: RemotePeerCursor[] = [];
       for (const { clientID, presence } of doc.getPresences()) {
         if (clientID === selfID || !presence.selection) continue;
@@ -104,9 +116,12 @@ export default function MarkdownEditor() {
           head: idx[1],
         });
       }
-      view.dispatch({
-        effects: setRemoteCursors.of(normalizeCursors(peers, view.state.doc.length)),
-      });
+      return normalizeCursors(peers, view.state.doc.length);
+    };
+
+    // Recompute remote carets/selections from presence and dispatch to the view.
+    const refreshCursors = () => {
+      view.dispatch({ effects: setRemoteCursors.of(collectRemoteCursors()) });
     };
 
     // 3) Remote edits → CodeMirror (loop-guarded), then remap peer cursors.
@@ -122,8 +137,16 @@ export default function MarkdownEditor() {
     // 4) Remote presence (join / move / leave) → re-render peer cursors.
     const unsubscribePresence = doc.subscribe('presence', refreshCursors);
 
-    // Render any cursors already present, and announce our initial position.
+    // Render any cursors already present, then place our initial caret on the
+    // first line not already occupied by a remote peer (scanning top to bottom).
+    // Falls back to line 1 (offset 0) when every line is taken.
     refreshCursors();
+    // 다른 유저가 점유하지 않은 첫 줄에서 시작 (위에서부터). 빈 줄 없으면 1번 줄 유지.
+    const occupied = remoteOccupiedLines(collectRemoteCursors(), view.state.doc);
+    const initialHead = firstUnoccupiedLineStart(view.state.doc, occupied);
+    if (initialHead !== 0) {
+      view.dispatch({ selection: { anchor: initialHead, head: initialHead } });
+    }
     broadcastSelection(view.state);
 
     return () => {
