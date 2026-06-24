@@ -627,6 +627,13 @@ a {
   border-right: 1px solid var(--paper-2);
 }
 
+/* Line block (occupation) — shared border for local and remote occupied lines */
+.markdown-editor .cm-blocked-line {
+  border: 1px solid var(--ink-faint);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--paper-2) 60%, transparent);
+}
+
 /* Remote peer cursors (Yorkie presence) */
 .cm-peer-selection {
   border-radius: 2px;
