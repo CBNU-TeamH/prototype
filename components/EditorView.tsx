@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { YorkieProvider, DocumentProvider } from '@yorkie-js/react';
 import { loadUser, type User } from '@/lib/user';
+import { getYorkieRpcAddr } from '@/lib/yorkie-config';
 import { INDEX_DOC_KEY } from '@/lib/doc-index';
 import type { DocIndexRoot, DocIndexPresence } from '@/lib/doc-index';
 import type { DocRoot } from '@/lib/yorkie-codemirror';
@@ -39,7 +40,7 @@ export default function EditorView({ docKey }: Props) {
      * Only PresenceBar, MarkdownEditor, EnsureUniqueColor live under this
      * provider — they resolve their Yorkie context to the content document.
      */
-    <YorkieProvider rpcAddr={process.env.NEXT_PUBLIC_YORKIE_RPC_ADDR!}>
+    <YorkieProvider rpcAddr={getYorkieRpcAddr()}>
       <DocumentProvider<DocRoot, CursorPresence>
         docKey={docKey}
         initialRoot={{}}
@@ -62,7 +63,7 @@ export default function EditorView({ docKey }: Props) {
            * resolve to the content provider.
            */}
           <aside className="app-sidebar" aria-label="문서 목록">
-            <YorkieProvider rpcAddr={process.env.NEXT_PUBLIC_YORKIE_RPC_ADDR!}>
+            <YorkieProvider rpcAddr={getYorkieRpcAddr()}>
               <DocumentProvider<DocIndexRoot, DocIndexPresence>
                 docKey={INDEX_DOC_KEY}
                 initialPresence={{ name: user.name, color: user.color, activeDocKey: docKey }}
