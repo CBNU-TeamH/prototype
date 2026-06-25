@@ -6,6 +6,7 @@ import { YorkieProvider, DocumentProvider } from '@yorkie-js/react';
 import { loadUser, type User } from '@/lib/user';
 import { INDEX_DOC_KEY } from '@/lib/doc-index';
 import type { DocIndexRoot, DocIndexPresence } from '@/lib/doc-index';
+import { getYorkieRpcAddr } from '@/lib/yorkie-config';
 import DashboardDocList from './DashboardDocList';
 
 /**
@@ -70,7 +71,7 @@ export default function DashboardView() {
           DashboardDocList is wrapped in Yorkie providers (lurker=true on the
           index doc). Nav / tabs / header above remain unaffected.
         */}
-        <YorkieProvider rpcAddr={process.env.NEXT_PUBLIC_YORKIE_RPC_ADDR!}>
+        <YorkieProvider rpcAddr={getYorkieRpcAddr()}>
           <DocumentProvider<DocIndexRoot, DocIndexPresence>
             docKey={INDEX_DOC_KEY}
             initialPresence={{ name: user.name, color: user.color }}
